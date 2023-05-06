@@ -31,6 +31,20 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
             printList()
             userOptions()
 
+        elif userInput == 2:
+            print('What item would you like to remove?')
+            userSelect = int(input())
+            totalItemNum = 0
+            for x in itemList:
+                totalItemNum = totalItemNum + 1
+
+            for x in range(userSelect, totalItemNum):
+                itemList[x] = itemList[x + 1]
+            itemList.pop(totalItemNum)
+            printList()
+            userOptions()
+            
+
         else: #Gives error message for a value not specified
             print('Unexpected Value')
 
@@ -38,7 +52,7 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
         print('You did not enter a whole number.')
         userOptions()
 
-    except: #Gives an error for anything else that would otherwise crash the program
+    #except: #Gives an error for anything else that would otherwise crash the program
         print('Something went wrong')
         userOptions()
 
