@@ -1,9 +1,13 @@
 import sys
-itemList = { #Dictionary containing list
-    1: 'Groceries',
-    2: 'Pringles',
-    3: 'IDFK This is a test'
-    }
+import json
+import pickle
+itemList = {}
+def loadList():
+    with open('list.bin', 'rb') as f:
+        data = pickle.load(f)
+        itemList = bytes(data)
+        
+        f.close
 def printList(): #This function takes all items in itemList and prints them
     for x in itemList:
         print(str(x) + '.' + str(itemList[x]))
@@ -45,23 +49,16 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
         userOptions()
 
     elif userInput == 3:
-        with open('list.txt', 'w') as f:
-            f.write('Test')
+        with open('list.bin', 'wb') as f:
+            pickle.dump(str(itemList, f))
             f.close()
+            
                 
             
 
     else: #Gives error message for a value not specified
             print('Unexpected Value')
 
-    #except ValueError: #Gives an error if the user enters anything but a whole number
-        #print('You did not enter a whole number.')
-        #userOptions()
-
-    #except: #Gives an error for anything else that would otherwise crash the program
-        #print('Something went wrong')
-        #userOptions()
-
+loadList()
 printList()
 userOptions()
-
