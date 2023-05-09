@@ -1,13 +1,10 @@
-import sys
-import json
+import os
 import pickle
 itemList = {}
-def loadList():
-    with open('list.bin', 'rb') as f:
-        data = pickle.load(f)
-        itemList = bytes(data)
-        
-        f.close
+
+with open('list.pkl', 'rb') as fp:
+    itemList = pickle.load(fp)
+    fp.close
 def printList(): #This function takes all items in itemList and prints them
     for x in itemList:
         print(str(x) + '.' + str(itemList[x]))
@@ -31,12 +28,13 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
             currItemNum = currItemNum + 1
         itemNum = currItemNum + 1
         itemList[itemNum] = itemName
+        os.system('cls')
         printList()
         userOptions()
 #Asks user for item number then removes item from list
 #Also brings the rest of the list up to fill the gap
     elif userInput == 2: 
-        print('What item would you like to remove?')
+        print('What is the number of the item you would like to remove?')
         userSelect = int(input())
         totalItemNum = 0
         for x in itemList:
@@ -45,13 +43,15 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
         for x in range(userSelect, totalItemNum):
             itemList[x] = itemList[x + 1]
         itemList.pop(totalItemNum)
+        os.system('cls')
         printList()
         userOptions()
 
     elif userInput == 3:
-        with open('list.bin', 'wb') as f:
-            pickle.dump(str(itemList, f))
-            f.close()
+        with open('list.pkl', 'wb') as fp:
+            pickle.dump(itemList, fp)
+            fp.close()
+            
             
                 
             
@@ -59,6 +59,5 @@ def userOptions(): #Lists the users options, takes input, then acts accordingly
     else: #Gives error message for a value not specified
             print('Unexpected Value')
 
-loadList()
 printList()
 userOptions()
